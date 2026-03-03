@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeFlow – Donor Registration</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="header">
+    <div class="header-top">
+        <div class="logo" onclick="goHome()">
+        <img src="logo.jpeg" alt="LifeFlow">
+    </div>
+    <div class="nav-links">
+        <button onclick="goHome()">Home</button>
+        <button onclick="goLogin()">Login</button>
+    </div>
+</div>
+
+<div class="container card-panel card-narrow">
+    <h2 class="text-center">Donor Registration</h2>
+    <p class="text-muted mt-sm text-center">Register as a blood donor using your mobile number.</p>
+
+    <label>Full Name</label>
+    <input type="text" id="donorName" placeholder="Full Name">
+
+    <label>Mobile Number</label>
+    <div class="otp-group">
+        <input type="tel" id="donorMobile" placeholder="+91-XXXXXXXXXX">
+        <button class="btn btn-secondary" onclick="sendRegOtp()">Send OTP</button>
+    </div>
+
+    <label>Enter OTP</label>
+    <input type="text" id="donorRegOtp" placeholder="Enter 6-digit OTP" maxlength="6">
+
+    <label>Blood Group</label>
+    <select id="donorBloodGroup">
+        <option value="">-- Select --</option>
+        <option value="A+">A+</option>
+        <option value="A-">A-</option>
+        <option value="B+">B+</option>
+        <option value="B-">B-</option>
+        <option value="O+">O+</option>
+        <option value="O-">O-</option>
+        <option value="AB+">AB+</option>
+        <option value="AB-">AB-</option>
+    </select>
+
+    <label>City</label>
+    <input type="text" id="donorCity" placeholder="Your City">
+
+    <button class="btn btn-primary" style="width:100%;" onclick="registerDonor()">Verify & Register</button>
+
+    <p class="text-muted mt-sm text-center" style="font-size:0.82rem;">
+        Admin or Hospital? <a href="common_register.html" style="color:var(--color-primary); text-decoration:none;">Register here</a>
+    </p>
+</div>
+
+<div class="footer">
+    &copy; 2025 LifeFlow | Blood Donation Management System
+</div>
+
+<script>
+function goHome() { window.location.href = "index.html"; }
+function goLogin() { window.location.href = "login.html"; }
+
+function sendRegOtp() {
+    const mobile = document.getElementById("donorMobile").value;
+    if (!mobile) { alert("Please enter your mobile number."); return; }
+    alert("OTP sent to " + mobile + " (placeholder)");
+}
+
+function registerDonor() {
+    const otp = document.getElementById("donorRegOtp").value;
+    const name = document.getElementById("donorName").value;
+    const bg = document.getElementById("donorBloodGroup").value;
+    if (!name || !otp || !bg) {
+        alert("Please fill all required fields.");
+        return;
+    }
+    localStorage.setItem("userRole", "donor");
+    alert("Donor registration successful!");
+    window.location.href = "login.html?role=donor";
+}
+</script>
+
+</body>
+</html>

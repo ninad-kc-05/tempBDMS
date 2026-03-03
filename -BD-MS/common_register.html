@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeFlow – Admin / Hospital Registration</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="header">
+    <div class="header-top">
+        <div class="logo" onclick="goHome()">
+        <img src="logo.jpeg" alt="LifeFlow">
+    </div>
+    <div class="nav-links">
+        <button onclick="goHome()">Home</button>
+        <button onclick="goLogin()">Login</button>
+    </div>
+</div>
+
+<div class="container card-panel card-narrow">
+    <h2 class="text-center">Admin / Hospital Registration</h2>
+    <p class="text-muted mt-sm text-center">Create an account for Admin or Hospital roles.</p>
+
+    <label>Full Name / Organization</label>
+    <input type="text" id="regName" placeholder="Full Name or Hospital Name">
+
+    <label>Email</label>
+    <input type="email" id="regEmail" placeholder="Email">
+
+    <label>Password</label>
+    <input type="password" id="regPassword" placeholder="Password">
+
+    <label>Select Role</label>
+    <select id="regRole" onchange="toggleHospitalField()">
+        <option value="">-- Select --</option>
+        <option value="receiver">Hospital / Receiver</option>
+        <option value="admin">Admin</option>
+    </select>
+
+    <div id="hospitalField" style="display:none;">
+        <label>Hospital Name</label>
+        <input type="text" placeholder="Hospital / Blood Bank Name">
+    </div>
+
+    <button class="btn btn-primary" style="width:100%;" onclick="registerCommon()">Register</button>
+
+    <p class="text-muted mt-sm text-center" style="font-size:0.82rem;">
+        Are you a donor? <a href="donor_register.html" style="color:var(--color-primary); text-decoration:none;">Register as Donor</a>
+    </p>
+</div>
+
+<div class="footer">
+    &copy; 2025 LifeFlow | Blood Donation Management System
+</div>
+
+<script>
+function goHome() { window.location.href = "index.html"; }
+function goLogin() { window.location.href = "login.html"; }
+
+function toggleHospitalField() {
+    const role = document.getElementById("regRole").value;
+    document.getElementById("hospitalField").style.display = role === "receiver" ? "block" : "none";
+}
+
+function registerCommon() {
+    const role = document.getElementById("regRole").value;
+    if (!role) { alert("Please select a role."); return; }
+    localStorage.setItem("userRole", role);
+    alert("Registration successful!");
+    window.location.href = "login.html?role=" + encodeURIComponent(role);
+}
+
+(function preselectRole() {
+    const params = new URLSearchParams(window.location.search);
+    const roleFromUrl = params.get("role");
+    if (!roleFromUrl) return;
+    const select = document.getElementById("regRole");
+    const values = Array.from(select.options).map(o => o.value);
+    if (values.includes(roleFromUrl)) {
+        select.value = roleFromUrl;
+        toggleHospitalField();
+    }
+})();
+</script>
+
+</body>
+</html>
